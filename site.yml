@@ -1,0 +1,30 @@
+
+
+
+- hosts: web
+  user: root
+  roles:
+    - common
+    - web
+
+
+- hosts: db
+  user: root
+  roles:
+    - common
+    - db
+
+
+- hosts: proxy
+  user: root
+  roles:
+    - common
+    - proxy
+
+
+- hosts: testapp
+  user: root
+  sudo: true
+  sudo_user: testapp
+  roles:
+    - testapp

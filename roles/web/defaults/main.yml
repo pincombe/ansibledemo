@@ -1,0 +1,40 @@
+---
+
+fpm_pools:
+ - pool:
+    name: testapp
+    vars:
+     - user = testapp
+     - group = testapp
+     - listen = /var/run/php5-fpm.sock
+     - pm = dynamic
+     - pm.max_children = 5
+     - pm.start_servers = 2
+     - pm.min_spare_servers = 1
+     - pm.max_spare_servers = 3
+
+
+php_config:
+ - option: "display_errors"
+   value: "off"
+ - option: "display_startup_errors"
+   value: "off"
+ - option: "error_reporting"
+   value: "E_ALL"
+ - option: "html_errors"
+   value: "off"
+ - option: "log_errors"
+   value: "on"
+ - option: "max_input_time"
+   value: "60"
+ - option: "short_open_tag"
+   value: "off"
+ - option: "memory_limit"
+   value: "128M"
+ - option: "expose_php"
+   value: "off"
+
+fpm_config:
+ - section: "global"
+   option: "error_log"
+   value: "/var/log/php5-fpm.log"

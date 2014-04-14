@@ -1,0 +1,6 @@
+
+
+mysql_host: thor.panicdev.com
+mysql_user: testapp
+mysql_database: testapp
+mysql_password: god1

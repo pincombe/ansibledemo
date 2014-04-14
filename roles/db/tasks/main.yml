@@ -1,0 +1,63 @@
+
+
+#- name: MySQL | Prepare for packages
+#  shell: export DEBIAN_FRONTEND=noninteractive
+
+
+# Install Python Libs
+
+- apt: name=python-mysqldb
+       state=present
+
+# Install MySQL
+
+- apt: name=mysql-server
+       state=present
+
+- apt: name=mysql-client
+       state=present
+
+- copy: src=my.cnf
+        dest=/etc/mysql/my.cnf
+
+- service: name=mysql
+           state=started
+           enabled=yes
+
+
+- mysql_db: name={{ mysql_database }}
+            state=present
+
+- mysql_user: name={{ mysql_user }}
+              password={{ mysql_password }}
+              priv={{ mysql_database }}.*:ALL
+              host=%
+              state=present
+
+
+
+
+
+
+
+
+#- name: MySQL | Create database
+#  mysql_db:
+#    name: "{{ database }}"
+#    login_unix_socket: /var/lib/mysql/mysql.sock
+#    state: present
+
+#- name: MySQL | Create user
+#  mysql_user:
+#    name: "{{ user }}"
+#    password: "{{ password }}"
+#    priv: "{{ database }}.*:ALL"
+#    host: "%"
+#    login_unix_socket: /var/lib/mysql/mysql.sock
+#    state: present
+#  register: mysql_user
+
+
+#- name: MySQL | Restart
+#  service: name=mysql state=restarted
+#  when: not mysql_user|skipped and mysql_user|success

@@ -1,0 +1,21 @@
+
+
+# Configure Timezone
+
+- name: Change Timezone to UTC
+  copy: content=Etc/UTC
+        dest=/etc/timezone
+  notify: update timezone
+
+
+
+# Configure & Install NTP
+
+- name: Install NTP
+  apt: name=ntp
+       state=present
+
+- name: Configure NTP
+  copy: src=ntp.conf
+        dest=/etc/ntp.conf
+  notify: restart ntp

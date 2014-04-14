@@ -1,0 +1,21 @@
+
+
+# Install & Configure haproxy
+
+- apt: name=haproxy
+       state=present
+
+
+- lineinfile: dest=/etc/default/haproxy
+              regexp='^ENABLED='
+              line='ENABLED=1'
+              state=present
+
+
+- template: src=haproxy.cfg
+            dest=/etc/haproxy/haproxy.cfg
+  notify: reload haproxy
+
+- service: name=haproxy
+           state=started
+           enabled=yes

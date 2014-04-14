@@ -1,0 +1,17 @@
+
+[db]
+thor.panicdev.com
+
+
+[web]
+flash.panicdev.com
+spiderman.panicdev.com
+
+
+[proxy]
+hulk.panicdev.com
+
+
+[testapp]
+flash.panicdev.com
+spiderman.panicdev.com
