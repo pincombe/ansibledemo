@@ -1,11 +1,12 @@
 
 
-
 - hosts: web
   user: root
   roles:
     - common
     - web
+    - app-testapp
+    #- app-phpne
 
 
 - hosts: db
@@ -20,11 +21,3 @@
   roles:
     - common
     - proxy
-
-
-- hosts: testapp
-  user: root
-  sudo: true
-  sudo_user: testapp
-  roles:
-    - testapp

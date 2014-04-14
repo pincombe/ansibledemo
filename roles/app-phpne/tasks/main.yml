@@ -1,0 +1,52 @@
+
+
+
+- apt_repository: repo='ppa:brightbox/ruby-ng'
+
+- apt: name=ruby
+       state=present
+
+- apt: name=rubygems
+       state=present
+
+- gem: name=jekyll
+       state=latest
+       user_install=no
+
+
+- user: name=phpne
+        generate_ssh_key=yes
+        shell=/bin/bash
+        state=present
+
+- file: path=/var/phpne/
+        owner=phpne
+        group=phpne
+        mode=0775
+        state=directory
+
+- file: path=/var/www/phpne/
+        owner=phpne
+        group=phpne
+        mode=0775
+        state=directory
+
+- git: repo=https://github.com/phpne/phpne.github.io.git
+       dest=/var/www/phpne/
+       update=yes
+  sudo: yes
+  sudo_user: phpne
+
+- command: jekyll build -s /var/phpne/ -d /var/www/phpne/
+  sudo: yes
+  sudo_user: phpne
+
+
+- copy: src=phpne.com
+        dest=/etc/nginx/sites-available/default
+  notify: reload nginx
+
+- file: src=/etc/nginx/sites-available/default
+        dest=/etc/nginx/sites-enabled/default
+        state=link
+  notify: reload nginx

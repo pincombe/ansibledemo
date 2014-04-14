@@ -1,0 +1,35 @@
+
+
+- user: name=testapp
+        generate_ssh_key=yes
+        shell=/bin/bash
+        state=present
+
+- file: path=/var/www/testapp/
+        owner=testapp
+        group=testapp
+        mode=0775
+        state=directory
+
+
+- copy: src=testapp.com
+        dest=/etc/nginx/sites-available/default
+  notify: reload nginx
+
+- file: src=/etc/nginx/sites-available/default
+        dest=/etc/nginx/sites-enabled/default
+        state=link
+  notify: reload nginx
+
+
+- git: repo=https://github.com/pincombe/testapp.git
+       dest=/var/www/testapp/
+       update=yes
+  sudo: yes
+  sudo_user: testapp
+
+
+- template: src=config.ini
+            dest=/var/www/testapp/config.ini
+  sudo: yes
+  sudo_user: testapp

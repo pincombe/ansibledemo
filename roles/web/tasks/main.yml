@@ -17,15 +17,6 @@
         dest=/etc/nginx/nginx.conf
   notify: reload nginx
 
-- file: path=/etc/nginx/sites-available/default
-        state=absent
-  notify: reload nginx
-
-- file: path=/etc/nginx/sites-enabled/default
-        state=absent
-  notify: reload nginx
-
-
 #- copy: src=nginx/php.conf
 #        dest=/etc/nginx/conf.d/php.conf
 #  notify: reload nginx
@@ -77,53 +68,10 @@
 
 
 
-# Composer
-
-- name: check if /usr/local/bin/composer exists
-  shell: test -x /usr/local/bin/composer
-  ignore_errors: True
-  register: phpComposerNotInstalled
-
-- name: install composer
-  shell: >
-    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin
-  when: "phpComposerNotInstalled.rc != 0 and phpInstallComposer == true"
-
-- name: move composer.phar to /usr/local/bin/composer
-  shell: >
-    mv /usr/local/bin/composer.phar /usr/local/bin/composer
-  when: "phpComposerNotInstalled.rc != 0 and phpInstallComposer == true"
-
-
 # Install Git
 
 -  apt: name=git
         state=present
-
-
-
-# Install & Configure TestApp
-
-- user: name=testapp
-        generate_ssh_key=yes
-        shell=/bin/bash
-        state=present
-
-- file: path=/var/www/testapp/
-        owner=testapp
-        group=testapp
-        mode=0775
-        state=directory
-
-
-- copy: src=nginx/sites-available/testapp
-        dest=/etc/nginx/sites-available/default
-  notify: reload nginx
-
-- file: src=/etc/nginx/sites-available/default
-        dest=/etc/nginx/sites-enabled/default
-        state=link
-  notify: reload nginx
 
 
 
