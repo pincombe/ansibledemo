@@ -1,7 +1,7 @@
 
 
 
-- apt_repository: repo='ppa:brightbox/ruby-ng'
+#- apt_repository: repo='ppa:brightbox/ruby-ng'
 
 - apt: name=ruby
        state=present
