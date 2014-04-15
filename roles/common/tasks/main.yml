@@ -8,6 +8,19 @@
   notify: update timezone
 
 
+# Configure Hostname
+
+- hostname: name={{ inventory_hostname_short }}
+
+#- lineinfile: dest=/etc/hosts
+#              regexp=localhost$
+#              line="127.0.0.1 localhost"
+
+#- lineinfile: dest=/etc/hosts
+#              regexp={{ inventory_hostname_short }}$
+#              line="{{ ansible_eth0.ipv4.address }} {{ inventory_hostname }} {{ inventory_hostname_short }}"
+#              insertafter=localhost$
+#              state=present
 
 # Configure & Install NTP
 
